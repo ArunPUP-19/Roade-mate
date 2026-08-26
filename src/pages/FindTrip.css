@@ -1,0 +1,37 @@
+.find-trip-page {
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  max-width: 900px;
+}
+
+.search-section {
+  padding: 32px;
+}
+
+.results-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .trips-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pt-6 {
+  padding-top: 24px;
+}
+
+.py-8 {
+  padding-top: 32px;
+  padding-bottom: 32px;
+}

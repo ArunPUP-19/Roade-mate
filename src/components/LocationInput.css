@@ -1,0 +1,93 @@
+.location-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.location-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.location-input {
+  padding-left: 36px !important;
+  padding-right: 36px !important; /* Space for the locate button */
+  width: 100%;
+}
+
+.locate-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.locate-btn:hover {
+  background: var(--surface-hover);
+  color: var(--primary-hover);
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Custom Dropdown Styles */
+.suggestions-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  background-color: var(--background-start);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  list-style: none;
+  padding: 8px 0;
+  max-height: 250px;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+@media (prefers-color-scheme: dark) {
+  .suggestions-dropdown {
+    background-color: #1e293b;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: background-color 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.suggestion-item:hover {
+  background-color: var(--surface-hover);
+}
+
+.suggestion-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
