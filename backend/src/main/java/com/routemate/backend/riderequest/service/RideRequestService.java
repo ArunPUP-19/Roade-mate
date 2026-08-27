@@ -38,8 +38,7 @@ public class RideRequestService {
     }
 
     /**
-     * Create a new ride request.
-     * Uses a default user (id=4) since we don't have auth yet.
+     * Create a new ride request for the authenticated user.
      */
     @Transactional
     public RideRequestDto createRequest(CreateRideRequestRequest request) {

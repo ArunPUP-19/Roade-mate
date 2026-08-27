@@ -133,9 +133,9 @@ public class Trip {
         trip.setSeatsAvailable(seatsAvailable);
         trip.setTotalSeats(seatsAvailable);
         
-        // Use provided totalCost or default
+        // Use provided totalCost or default to 0
         trip.setTotalCost(totalCost);
-        trip.setEstimatedCost(totalCost != null ? totalCost : ((int) (Math.random() * 150) + 100));
+        trip.setEstimatedCost(totalCost != null ? totalCost : 0);
         
         trip.setYourSplit(yourSplit);
         trip.setNegotiable(negotiable != null ? negotiable : false);
@@ -170,7 +170,9 @@ public class Trip {
     public void incrementSeats() {
         this.seatsAvailable++;
         if (this.status == TripStatus.FULL) {
-            this.status = TripStatus.ACTIVE;
+            // Restore to PENDING_CONFIRMATION if there are still other pending participants,
+            // otherwise back to ACTIVE
+            this.status = TripStatus.PENDING_CONFIRMATION;
         }
     }
 

@@ -61,9 +61,17 @@ const TripDetail = () => {
         method,
         headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
       });
-      const data = await res.json();
+
+      if (res.status === 401 || res.status === 403) {
+        setError('Your session has expired. Please log in again.');
+        setTimeout(() => setError(''), 5000);
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(data?.error?.message || data?.message || 'Action failed');
+        const msg = data?.error?.message || data?.message || data?.error || 'Action failed';
+        throw new Error(msg);
       }
       setTrip(data.trip);
       setSuccessMsg(data.message);
@@ -112,7 +120,7 @@ const TripDetail = () => {
 
   const statusCfg = STATUS_CONFIG[trip.status] || STATUS_CONFIG.ACTIVE;
   const StatusIcon = statusCfg.icon;
-  const isOrganizer = user && trip.driverId === user.id;
+  const isOrganizer = user && trip.driverPublicId === user.id;
   const myParticipation = user && trip.participants?.find(p => p.userId === user.id);
   const canJoin = user && !myParticipation && (trip.status === 'ACTIVE' || trip.status === 'PENDING_CONFIRMATION') && trip.seatsAvailable > 0;
   const canLeave = myParticipation && myParticipation.role !== 'DRIVER' &&

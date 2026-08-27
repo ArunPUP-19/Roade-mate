@@ -9,6 +9,11 @@ const LocationInput = ({ placeholder, value, onChange, className }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const wrapperRef = useRef(null);
 
+  // Sync query state with external value prop changes
+  useEffect(() => {
+    setQuery(value || '');
+  }, [value]);
+
   // Handle click outside to close dropdown
   useEffect(() => {
     function handleClickOutside(event) {
@@ -132,8 +137,10 @@ const LocationInput = ({ placeholder, value, onChange, className }) => {
         className={`glass-input location-input ${className || ''}`}
         value={query}
         onChange={(e) => {
-          setQuery(e.target.value);
+          const val = e.target.value;
+          setQuery(val);
           setShowDropdown(true);
+          if (onChange) onChange(val);
         }}
         onFocus={() => setShowDropdown(true)}
       />

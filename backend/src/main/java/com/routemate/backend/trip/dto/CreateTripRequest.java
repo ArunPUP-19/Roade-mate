@@ -25,10 +25,8 @@ public record CreateTripRequest(
 
     String vehicleDetails,
     
-    @Positive(message = "Total cost must be positive")
     Integer totalCost,
 
-    @Positive(message = "Split must be positive")
     Integer yourSplit,
 
     Boolean negotiable

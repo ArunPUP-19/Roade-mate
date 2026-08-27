@@ -44,7 +44,7 @@ const ImGoing = () => {
           destination,
           date,
           time,
-          seatsAvailable,
+          seatsAvailable: parseInt(seatsAvailable),
           vehicleDetails: `${vehicleType} - ${vehicleName} (${vehicleNumber})`,
           totalCost: totalCost ? parseInt(totalCost) : null,
           yourSplit: yourSplit ? parseInt(yourSplit) : null,
@@ -52,7 +52,12 @@ const ImGoing = () => {
         })
       });
 
-      const data = await res.json();
+      if (res.status === 401 || res.status === 403) {
+        alert('Your session has expired. Please log in again.');
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
 
       if (res.ok) {
         setSuccessMessage('Your trip has been published successfully!');
@@ -61,7 +66,7 @@ const ImGoing = () => {
           navigate('/find-trip');
         }, 1500);
       } else {
-        alert(data.error || 'Failed to publish trip.');
+        alert(data.message || data.error || 'Failed to publish trip.');
       }
     } catch (err) {
       console.error('Error submitting trip:', err);

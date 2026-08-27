@@ -40,7 +40,12 @@ const IWantToGo = () => {
         })
       });
 
-      const data = await res.json();
+      if (res.status === 401 || res.status === 403) {
+        alert('Your session has expired. Please log in again.');
+        return;
+      }
+
+      const data = await res.json().catch(() => ({}));
 
       if (res.ok) {
         setSuccessMessage('Your ride request has been published!');
@@ -48,7 +53,7 @@ const IWantToGo = () => {
           navigate('/find-trip');
         }, 1500);
       } else {
-        alert(data.error || 'Failed to submit request.');
+        alert(data.message || data.error || 'Failed to submit request.');
       }
     } catch (err) {
       console.error('Error submitting request:', err);

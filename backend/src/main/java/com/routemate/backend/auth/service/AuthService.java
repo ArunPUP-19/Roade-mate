@@ -26,7 +26,7 @@ public class AuthService {
 
     @Transactional
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmailAndDeletedAtIsNull(request.getEmail())) {
             throw new BusinessRuleViolationException("Email is already in use");
         }
 
@@ -53,7 +53,7 @@ public class AuthService {
         );
         
         User user = userRepository.findByEmailAndDeletedAtIsNull(request.getEmail())
-                .orElseThrow();
+                .orElseThrow(() -> new RuntimeException("User not found for email: " + request.getEmail()));
                 
         CustomUserDetails userDetails = new CustomUserDetails(user);
         String jwtToken = jwtService.generateToken(userDetails);
